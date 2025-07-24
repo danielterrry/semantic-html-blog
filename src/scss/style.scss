@@ -1,11 +1,14 @@
 @use "spacing" as s;
+@use "colors" as c;
+@use "select";
 
 body {
   font-family: "DM Sans";
   margin: s.$space-0;
   padding: 0;
   font-size: 16px;
-  background-color: #f7f7f7;
+  background-color: c.$secondary;
+  color: #181a1b;
 }
 
 * {
@@ -18,6 +21,7 @@ h3,
 h4,
 h5,
 h6 {
+  color: c.$primary;
   margin: s.$space-0;
 }
 
@@ -27,6 +31,11 @@ h2 {
 
 h1 {
   font-size: 2rem;
+}
+
+input,
+select {
+  font-size: inherit;
 }
 
 img {
@@ -46,7 +55,6 @@ img {
     "a b c"
     "a d e";
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
   margin: 1rem auto;
   grid-auto-rows: 1fr;
@@ -59,6 +67,7 @@ img {
 
 .card {
   position: relative;
+  border-radius: 6px;
 
   .article-text {
     font-size: 1rem;
@@ -74,13 +83,13 @@ img {
       text-transform: none;
     }
 
-    .find-out-more {
-      font-weight: 700;
-    }
-
     .article-title {
       a {
         text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
 
@@ -110,6 +119,11 @@ img {
   grid-area: e;
 }
 
+#item {
+  display: flex;
+  grid-area: item;
+}
+
 .thumb-image {
   position: absolute;
   top: 0;
@@ -135,6 +149,11 @@ img {
   object-position: bottom;
 }
 
+.overlay,
+.thumb-image img {
+  border-radius: 1rem;
+}
+
 .overlay {
   position: absolute;
   top: 0;
@@ -149,45 +168,27 @@ img {
   bottom: 0.625rem;
 }
 
-.background-navy {
-  background: hsl(212deg 27% 37%);
-  color: #fff;
+.card-background {
+  background-color: c.$primary;
+  color: c.$secondary;
+  border-radius: 1rem;
 
-  a {
-    color: #fff;
-  }
-}
-
-.background-yellow {
-  background-color: hsl(45deg 91% 66%);
-  color: #000;
-
-  a {
-    color: #000;
-  }
-}
-
-.background-blue {
-  background-color: hsl(211deg 56% 15%);
-  color: #fff;
-
-  a {
-    color: #fff;
-  }
-}
-
-.top-story {
-  color: #fff;
-
-  a {
-    color: #fff;
+  &.bottom {
+    border-radius: 0 0 1rem 1rem;
   }
 }
 
 @media (max-width: 768px) {
   .card {
     .article-text {
-      font-size: s.$space-3;
+      & p {
+        font-size: s.$space-3;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 
@@ -196,13 +197,19 @@ img {
       "a a"
       "b c"
       "d e";
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
   .pull-top {
     top: 0;
+  }
+
+  .content {
+    .article-text,
+    .find-out-more {
+      display: none;
+    }
   }
 
   .cards {
@@ -212,20 +219,5 @@ img {
       "c"
       "d"
       "e";
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-
-@media (min-width: 290px) {
-  .bottom-relative-text {
-    position: relative;
-    bottom: auto;
-  }
-
-  #article-2,
-  #article-5 {
-    .pull-top {
-      top: auto;
-    }
   }
 }

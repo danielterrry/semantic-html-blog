@@ -1,10 +1,22 @@
 import json from "@rollup/plugin-json";
+import scss from "rollup-plugin-scss";
+import terser from "@rollup/plugin-terser";
 
 export default {
   input: "src/js/main.js",
   output: {
-    file: "dist/static/js/bundle.js",
+    dir: "dist",
     format: "esm",
+    entryFileNames: "static/js/bundle.js",
+    assetFileNames: "static/css/[name][extname]",
   },
-  plugins: [json()],
+  plugins: [
+    json(),
+    scss({
+      name: "style.css",
+      sourceMap: true,
+      outputStyle: "compressed",
+    }),
+    terser(),
+  ],
 };
